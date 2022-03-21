@@ -1,0 +1,11 @@
+package pl.pgrochala.creditcard;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class NameProvider {
+
+    public List<String> allNames() {
+        return Arrays.asList("Kuba", "Michal", "Kasia");
+    }
+}
