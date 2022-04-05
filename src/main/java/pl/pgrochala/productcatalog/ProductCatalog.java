@@ -6,9 +6,10 @@ import java.util.List;
 public class ProductCatalog {
     ProductStorage productStorage;
     /// Domain / Business
-    public ProductCatalog(ProductStorage productStorage){
+    public ProductCatalog(ProductStorage productStorage) {
         this.productStorage = productStorage;
     }
+
 
     public String addProduct(String productId, String name) {
         ProductData newProduct = new ProductData(productId, name);
@@ -21,22 +22,22 @@ public class ProductCatalog {
     }
 
     public void publish(String productId) {
-        ProductData loaded = loadProductById(productId);
+        ProductData loaded = productStorage.load(productId);
 
-        if (loaded.getPrice() == null){
+        if (loaded.getPrice() == null) {
             throw new CantPublishProductException();
         }
 
-        if (loaded.getImage() == null){
+        if (loaded.getImage() == null) {
             throw new CantPublishProductException();
         }
+
         loaded.setOnline(true);
     }
 
     public List<ProductData> allPublishedProducts() {
         return productStorage.allPublished();
     }
-
 
     public void assignPrice(String productId, BigDecimal newPrice) {
         ProductData loaded = loadProductById(productId);

@@ -9,7 +9,7 @@ public class MapProductStorage implements ProductStorage {
     /// Storage
     Map<String, ProductData> products;
 
-    public MapProductStorage(){
+    public MapProductStorage() {
         this.products = new HashMap<>();
     }
 
