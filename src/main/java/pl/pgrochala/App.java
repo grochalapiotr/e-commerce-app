@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Bean;
 import pl.pgrochala.creditcard.NameProvider;
 import pl.pgrochala.productcatalog.MapProductStorage;
 import pl.pgrochala.productcatalog.ProductCatalog;
-import pl.pgrochala.productcatalog.ProductData;
 import pl.pgrochala.productcatalog.ProductStorage;
+import pl.pgrochala.sales.CartStorage;
+import pl.pgrochala.sales.ProductDetailsProvider;
+import pl.pgrochala.sales.Sales;
 
 import java.math.BigDecimal;
 
@@ -42,5 +44,10 @@ public class App {
         productCatalog.publish(productId2);
 
         return productCatalog;
+    }
+
+    @Bean
+    Sales createSales() {
+        return new Sales(new CartStorage(), new ProductDetailsProvider());
     }
 }
