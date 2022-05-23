@@ -6,10 +6,9 @@ import org.springframework.context.annotation.Bean;
 import pl.pgrochala.creditcard.NameProvider;
 import pl.pgrochala.productcatalog.MapProductStorage;
 import pl.pgrochala.productcatalog.ProductCatalog;
+import pl.pgrochala.productcatalog.ProductData;
 import pl.pgrochala.productcatalog.ProductStorage;
-import pl.pgrochala.sales.CartStorage;
-import pl.pgrochala.sales.ProductDetailsProvider;
-import pl.pgrochala.sales.Sales;
+import pl.pgrochala.sales.*;
 
 import java.math.BigDecimal;
 
@@ -47,7 +46,21 @@ public class App {
     }
 
     @Bean
-    Sales createSales() {
-        return new Sales(new CartStorage(), new ProductDetailsProvider());
+    Sales createSales(ListProductDetailsProvider productDetailsProvider) {
+        return new Sales(
+                new CartStorage(),
+                productDetailsProvider
+        );
+    }
+
+    @Bean
+    ListProductDetailsProvider detailsProvider(ProductCatalog catalog) {
+        return (productId -> {
+            ProductData data = catalog.getDetails(productId);
+            return java.util.Optional.of(new ProductDetails(
+                    data.getId(),
+                    data.getName(),
+                    data.getPrice()));
+        });
     }
 }
