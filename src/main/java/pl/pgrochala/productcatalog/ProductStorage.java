@@ -9,3 +9,4 @@ public interface ProductStorage {
 
     List<ProductData> allPublished();
 }
+

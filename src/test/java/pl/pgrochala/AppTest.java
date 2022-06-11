@@ -1,4 +1,4 @@
-package pl.pgrochala;
+package pl.jkanclerz;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

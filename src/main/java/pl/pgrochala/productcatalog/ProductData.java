@@ -13,7 +13,6 @@ public class ProductData {
     private String image;
     private boolean online;
 
-
     public ProductData() {}
 
     public ProductData(String productId, String name) {
@@ -34,6 +33,7 @@ public class ProductData {
     }
 
     public void assignImage(String newImage) {
+
         this.image = newImage;
     }
 
@@ -46,6 +46,7 @@ public class ProductData {
     }
 
     public void setOnline(boolean online) {
+
         this.online = online;
     }
 

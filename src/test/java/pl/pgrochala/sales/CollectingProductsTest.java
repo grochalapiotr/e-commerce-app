@@ -2,6 +2,10 @@ package pl.pgrochala.sales;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.pgrochala.sales.cart.CartStorage;
+import pl.pgrochala.sales.offer.Offer;
+import pl.pgrochala.sales.payment.DummyPaymentGateway;
+import pl.pgrochala.sales.reservation.ReservationStorage;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -111,7 +115,9 @@ public class CollectingProductsTest {
     private Sales thereIsSalesModule() {
         return new Sales(
                 cartStorage,
-                new ListProductDetailsProvider(productDetails)
+                new ListProductDetailsProvider(productDetails),
+                new DummyPaymentGateway(),
+                new ReservationStorage()
         );
     }
 

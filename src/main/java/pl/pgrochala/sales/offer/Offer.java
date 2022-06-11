@@ -1,4 +1,4 @@
-package pl.pgrochala.sales;
+package pl.pgrochala.sales.offer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

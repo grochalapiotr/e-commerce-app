@@ -1,7 +1,6 @@
-package pl.pgrochala.sales;
+package pl.pgrochala.sales.cart;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Cart {
     Map<String, CartItem> items;

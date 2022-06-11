@@ -20,7 +20,7 @@ public class SQLProductStorageTest {
                 "DROP TABLE `product_catalog__products` IF EXISTS"
         );
         jdbcTemplate.execute(
-                "CREATE TABLE `product_catalog__products` ("+
+                "CREATE TABLE `product_catalog__products` (" +
                         "`id` varchar(100) NOT NULL, " +
                         "PRIMARY KEY(id)" +
                         ")"
@@ -34,15 +34,19 @@ public class SQLProductStorageTest {
     }
 
     @Test
-    void itCountsProducts(){
+    void itCountsProducts() {
         int productsCount = jdbcTemplate
                 .queryForObject(
-                        "select count(*) from `product_catalog__products`"
+                        "select " +
+                                "count(*) " +
+                                "from " +
+                                "`product_catalog__products`"
                         , Integer.class);
 
         assertEquals(0, productsCount);
-
     }
+
+
 
     @Test
     void itAllowsToStoreAndLoadProduct() {

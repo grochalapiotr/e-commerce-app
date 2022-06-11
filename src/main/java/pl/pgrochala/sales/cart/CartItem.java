@@ -1,4 +1,4 @@
-package pl.pgrochala.sales;
+package pl.pgrochala.sales.cart;
 
 import java.math.BigDecimal;
 

@@ -1,9 +1,10 @@
-package pl.pgrochala.sales;
+package pl.pgrochala.sales.cart;
+
+import pl.pgrochala.sales.cart.Cart;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class CartStorage {
     Map<String, Cart> carts;

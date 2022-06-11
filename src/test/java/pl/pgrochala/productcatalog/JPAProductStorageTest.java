@@ -2,10 +2,9 @@ package pl.pgrochala.productcatalog;
 
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class JPAProductStorageTest {
@@ -23,6 +22,5 @@ public class JPAProductStorageTest {
                 .findById(data.getId()).get();
 
         assertEquals(data.getId(), loaded.getId());
-
     }
 }

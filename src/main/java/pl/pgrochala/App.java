@@ -9,6 +9,9 @@ import pl.pgrochala.productcatalog.ProductCatalog;
 import pl.pgrochala.productcatalog.ProductData;
 import pl.pgrochala.productcatalog.ProductStorage;
 import pl.pgrochala.sales.*;
+import pl.pgrochala.sales.cart.CartStorage;
+import pl.pgrochala.sales.payment.DummyPaymentGateway;
+import pl.pgrochala.sales.reservation.ReservationStorage;
 
 import java.math.BigDecimal;
 
@@ -46,15 +49,17 @@ public class App {
     }
 
     @Bean
-    Sales createSales(ListProductDetailsProvider productDetailsProvider) {
+    Sales createSales(ProductDetailsProvider productDetailsProvider) {
         return new Sales(
                 new CartStorage(),
-                productDetailsProvider
+                productDetailsProvider,
+                new DummyPaymentGateway(),
+                new ReservationStorage()
         );
     }
 
     @Bean
-    ListProductDetailsProvider detailsProvider(ProductCatalog catalog) {
+    ProductDetailsProvider detailsProvider(ProductCatalog catalog) {
         return (productId -> {
             ProductData data = catalog.getDetails(productId);
             return java.util.Optional.of(new ProductDetails(

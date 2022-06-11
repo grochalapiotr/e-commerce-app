@@ -1,33 +1,44 @@
 package pl.pgrochala.sales;
 
-import java.math.BigDecimal;
+import pl.pgrochala.sales.cart.Cart;
+import pl.pgrochala.sales.cart.CartItem;
+import pl.pgrochala.sales.cart.CartStorage;
+import pl.pgrochala.sales.offer.Offer;
+import pl.pgrochala.sales.offer.OfferMaker;
+import pl.pgrochala.sales.payment.DummyPaymentGateway;
+import pl.pgrochala.sales.payment.PaymentData;
+import pl.pgrochala.sales.reservation.Reservation;
+import pl.pgrochala.sales.reservation.ReservationStorage;
+
+import java.util.UUID;
 
 public class Sales {
-
     CartStorage cartStorage;
     ProductDetailsProvider productDetailsProvider;
+    DummyPaymentGateway paymentGateway;
+    ReservationStorage reservationStorage;
 
-    public Sales(CartStorage cartStorage, ProductDetailsProvider productDetailsProvider) {
+    public Sales(
+            CartStorage cartStorage,
+            ProductDetailsProvider productDetailsProvider,
+            DummyPaymentGateway paymentGateway,
+            ReservationStorage reservationStorage) {
         this.cartStorage = cartStorage;
         this.productDetailsProvider = productDetailsProvider;
+        this.paymentGateway = paymentGateway;
+        this.reservationStorage = reservationStorage;
     }
 
     public Offer getCurrentOffer(String customerId) {
         Cart cart = cartStorage.getForCustomer(customerId)
                 .orElse(Cart.empty());
 
-        BigDecimal total = cart
-                .getItems()
-                .stream()
-                .map(this::calculateLineTotal)
-                .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO);
-
-        return Offer.of(total, cart.items.size());
+        return calculateOffer(cart);
     }
 
-    private BigDecimal calculateLineTotal(CartItem cartItem) {
-        return cartItem.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+    private Offer calculateOffer(Cart cart) {
+        OfferMaker offerMaker = new OfferMaker();
+        return offerMaker.calculateOffer(cart);
     }
 
     public void addToCart(String customerId, String productId) {
@@ -43,5 +54,25 @@ public class Sales {
                 productDetails.price));
 
         cartStorage.save(customerId, cart);
+    }
+
+    public PaymentData acceptOffer(String customerId, Offer seenOffer, ClientData clientData) {
+        Cart cart = cartStorage.getForCustomer(customerId)
+                .orElse(Cart.empty());
+
+        Offer currentOffer = calculateOffer(cart);
+        String id = UUID.randomUUID().toString();
+        Reservation reservation = Reservation.of(
+                id,
+                currentOffer.getTotal(),
+                clientData
+        );
+
+        PaymentData paymentData = reservation
+                .registerPayment(paymentGateway);
+
+        reservationStorage.save(reservation);
+
+        return paymentData;
     }
 }

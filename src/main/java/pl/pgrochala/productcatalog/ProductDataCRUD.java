@@ -3,5 +3,5 @@ package pl.pgrochala.productcatalog;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ProductDataCRUD
-    extends CrudRepository<ProductData, String> {
+        extends CrudRepository<ProductData, String> {
 }
