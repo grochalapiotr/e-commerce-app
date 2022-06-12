@@ -7,7 +7,9 @@ import pl.pgrochala.sales.payment.RegisterPaymentRequest;
 import pl.pgrochala.sales.payment.RegisterPaymentResponse;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
 @Entity
@@ -15,6 +17,8 @@ public class Reservation {
     @Id
     private String id;
     private BigDecimal total;
+
+    @OneToOne(targetEntity = CustomerInfo.class, fetch = FetchType.EAGER)
     private CustomerInfo customerInfo;
 
     public Reservation(String reservationId, BigDecimal total, CustomerInfo customerInfo) {
